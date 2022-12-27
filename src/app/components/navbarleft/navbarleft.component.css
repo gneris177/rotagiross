@@ -1,0 +1,42 @@
+.navbar-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 120px;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #1145ef;
+}
+
+.navbar-left__items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.navbar-left__items .item {
+   list-style: none;
+}
+
+.navbar-left__items .icon {
+    text-decoration: none;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.navbar-left__items .icon--main {
+    background-image: url(https://img.icons8.com/ios/50/ffffff/circled-menu.png);
+}
+
+.navbar-left__items .icon--route {
+    background-image: url(https://img.icons8.com/ios/50/ffffff/circled-menu.png);
+}
+
+.navbar-left__items .icon--config {
+    background-image: url(https://img.icons8.com/ios/50/ffffff/circled-menu.png);
+}
