@@ -1,0 +1,52 @@
+<div class="wrapper-search-box">
+  <div class="search-box">
+    <input
+      type="text"
+      class="input"
+      (keydown.enter)="$event.preventDefault()"
+      [value]="addrressInitial.formattedAddress"
+      placeholder="Ponto de partida"
+      type="text"
+      #searchInit
+    />
+  </div>
+
+  <div class="search-box" style="display: flex; gap: 0.2rem">
+    <input
+      type="text"
+      class="input"
+      (keydown.enter)="$event.preventDefault()"
+      placeholder="Ponto de chegada"
+      type="text"
+      #searchFinal
+    />
+
+    <button type="button" (click)="calculateRoute()">Vá</button>
+  </div>
+</div>
+
+<google-map [center]="addrressInitial.coordinates" width="100%" #myGoogleMap>
+  <map-marker
+    *ngIf="addrressInitial"
+    [position]="addrressInitial.coordinates"
+    [label]="{ color: 'blue', text: 'Meu local' }"
+    [title]="'teste'"
+    [options]="{ animation: markerAnimation.drop }"
+  ></map-marker>
+  <map-marker
+    *ngIf="addrressFinal"
+    [position]="addrressFinal.coordinates"
+    [label]="{ color: 'red', text: 'Destion' }"
+    [title]="'teste'"
+    [options]="{ animation: markerAnimation.drop }"
+  ></map-marker>
+  <map-polyline
+    *ngIf="addrressFinal"
+    [options]="{
+      path: [addrressInitial.coordinates, addrressFinal.coordinates],
+      strokeColor: '#32a1d0',
+      strokeOpacity: 1,
+      strokeWeight: 2
+    }"
+  ></map-polyline>
+</google-map>
