@@ -1,0 +1,21 @@
+.app {
+  display: grid;
+}
+
+.app__container {
+  margin-left: 120px;
+}
+
+.app__content {
+  max-width: 1320px;
+  margin: auto;
+}
+
+grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
