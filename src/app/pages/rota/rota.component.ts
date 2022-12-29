@@ -7,7 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./rota.component.css'],
 })
 export class RotaComponent {
-  constructor(private locationService: LocationService) {}
+  routeInfo: any;
 
-  ngOnInit() {}
+  onAddRouteInfo(eventData: any) {
+    this.routeInfo = eventData.info;
+  }
 }
