@@ -2,6 +2,7 @@ import { center } from './../interfaces/centerLocation';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { routeInfo } from 'src/app/interfaces/routeInfo';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -42,18 +43,29 @@ export class LocationService {
     );
   }
 
-  calculateRoute(coordinatesRoute: {
+  getDistance(coordinatesRoute: {
     origins: center;
     destinations: center;
   }): Observable<any> {
-    console.log(
-      `${baseUrl}/distancematrix/json?origins=${coordinatesRoute.origins.lat},${coordinatesRoute.origins.lng}&destinations=${coordinatesRoute.destinations.lat},${coordinatesRoute.destinations.lng}&key=${apiKey}`
-    );
     return this.http.get<any>(
       `${baseUrl}/distancematrix/json?origins=${coordinatesRoute.origins.lat},${coordinatesRoute.origins.lng}&destinations=${coordinatesRoute.destinations.lat},${coordinatesRoute.destinations.lng}&key=${apiKey}`,
       {
         headers,
       }
     );
+  }
+
+  calculate(distanceMetro: number) {
+    return this.http.post<any>(
+      `http://localhost:3000/rota/calculate`,
+      { distanceMetro },
+      { headers }
+    );
+  }
+
+  saveRoute(route: routeInfo) {
+    return this.http.post<any>(`http://localhost:3000/rota/save`, route, {
+      headers,
+    });
   }
 }
