@@ -11,6 +11,7 @@ import {
 import { GoogleMap } from '@angular/google-maps';
 import { center } from 'src/app/interfaces/centerLocation';
 import { marker } from 'src/app/interfaces/marker';
+import { routeInfo } from 'src/app/interfaces/routeInfo';
 
 @Component({
   selector: 'app-view-map',
@@ -25,7 +26,7 @@ export class ViewMapComponent {
   @ViewChild(GoogleMap)
   public map!: GoogleMap;
 
-  @Output() RouteInfo = new EventEmitter<{ title: string }>();
+  @Output() RouteInfo = new EventEmitter<{ info: any }>();
 
   textFind: string = '';
   addrressInitial!: { formattedAddress: string; coordinates: center };
@@ -35,7 +36,7 @@ export class ViewMapComponent {
     bounce: google.maps.Animation.BOUNCE,
   };
   markerfinal!: marker;
-  routeInfo: any;
+  routeInfo!: routeInfo;
 
   constructor(
     private locationService: LocationService,
@@ -68,7 +69,7 @@ export class ViewMapComponent {
       elementRef.nativeElement
     );
 
-    this.map.controls.push(elementRef.nativeElement);
+    this.map?.controls.push(elementRef.nativeElement);
 
     autoComplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
@@ -98,17 +99,39 @@ export class ViewMapComponent {
       destinations: this.addrressFinal.coordinates,
     };
 
-    this.locationService.calculateRoute(coordinatesRoute).subscribe({
+    this.locationService.getDistance(coordinatesRoute).subscribe({
       next: (data) => {
-        this.routeInfo = {
-          destinationAddresses: data.destination_addresses,
-          originAddresses: data.origin_addresses,
-          distance: data.rows[0].elements[0].distance,
-          duration: data.rows[0].elements[0].duration,
-        };
+        this.locationService
+          .calculate(data.rows[0].elements[0].distance.value)
+          .subscribe({
+            next: (res) => {
+              this.routeInfo = {
+                originCoordinateLat: this.addrressInitial.coordinates.lat,
+                originCoordinateLnt: this.addrressInitial.coordinates.lng,
+                destinationCoordinateLat: this.addrressFinal.coordinates.lat,
+                destinationCoordinateLnt: this.addrressFinal.coordinates.lng,
+                originAddress: data.origin_addresses[0],
+                destinationAddress: data.destination_addresses[0],
+                distanceText: data.rows[0].elements[0].distance.text,
+                distanceValue: data.rows[0].elements[0].distance.value,
+                durationText: data.rows[0].elements[0].duration.text,
+                durationValue: data.rows[0].elements[0].duration.value,
+                valueTotal: res.valueTotal,
+              };
 
-        this.RouteInfo.emit(data);
+              this.saveRoute();
+            },
+          });
       },
     });
+  }
+
+  saveRoute() {
+    this.locationService.saveRoute(this.routeInfo);
+    this.onAddRouteInfo();
+  }
+
+  onAddRouteInfo() {
+    this.RouteInfo.emit({ info: this.routeInfo });
   }
 }

@@ -4,7 +4,7 @@
       type="text"
       class="input"
       (keydown.enter)="$event.preventDefault()"
-      [value]="addrressInitial.formattedAddress"
+      [value]="addrressInitial?.formattedAddress"
       placeholder="Ponto de partida"
       type="text"
       #searchInit
@@ -25,7 +25,12 @@
   </div>
 </div>
 
-<google-map [center]="addrressInitial.coordinates" width="100%" #myGoogleMap>
+<google-map
+  *ngIf="addrressInitial"
+  [center]="addrressInitial.coordinates"
+  width="100%"
+  #myGoogleMap
+>
   <map-marker
     *ngIf="addrressInitial"
     [position]="addrressInitial.coordinates"
