@@ -1,16 +1,40 @@
 <main class="main-route">
-  <section>
+  <section *ngIf="routeInfo">
     <h2>Informações de rota</h2>
-    <ul>
-      <li>Local de partida: </li>
-      <li>Destino: </li>
-      <br>
-      <li>Distancia: </li>
-      <li>Tempo estimado: </li>
-      <br>
-      <li>Preço por KM: </li>
-      <li>Preço total: </li>
+    <ul  class="route-info">
+      <li>
+        Local de partida: <br />
+        <span class="text-info">{{ routeInfo.originAddress }}</span>
+      </li>
+
+      <li>
+        Destino: <br />
+        <span class="text-info">{{ routeInfo.destinationAddress }}</span>
+      </li>
+
+      <li>
+        Distancia: <br />
+        <span class="text-info">{{ routeInfo.distanceText }}</span>
+      </li>
+
+      <li>
+        Tempo estimado: <br />
+        <span class="text-info">{{ routeInfo.durationText }}</span>
+      </li>
+
+      <li>
+        Preço por KM: <br />
+        <span class="text-info">R$5,00</span>
+      </li>
+
+      <li>
+        Preço total: <br />
+        <span class="text-info">R$59,99</span>
+      </li>
     </ul>
   </section>
-  <app-view-map></app-view-map>
+
+  <div class="wrapper-map">
+    <app-view-map (RouteInfo)="onAddRouteInfo($event)"></app-view-map>
+  </div>
 </main>

@@ -1,18 +1,43 @@
 .main-route {
-    padding: 2rem 0;
-    display: grid;
-    gap: 0.4rem;
-    grid-template-columns: 4fr 8fr;
+  padding: 2rem 0;
+  display: flex;
+  flex-wrap: wrap-reverse;
+}
+@media (min-width: 992px) {
+  .main-route {
+    flex-wrap: initial;
+  }
 }
 
 section {
-    padding: 0.8rem;
-    background: #f3f4fd67;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  min-width: 300px;
+  padding: 0.8rem;
+  background: #f3f4fd67;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 section div {
-    background: #ffffff;
+  background: #ffffff;
+}
+
+.route-info {
+  display: grid;
+  gap: 2rem;
+}
+
+.route-info .text-info {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.wrapper-map {
+  min-width: 500px;
+  flex-basis: 100%;
+}
+@media (min-width: 992px) {
+  .wrapper-map {
+    min-width: 500px;
+  }
 }
