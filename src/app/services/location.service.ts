@@ -64,8 +64,17 @@ export class LocationService {
   }
 
   saveRoute(route: routeInfo) {
+    console.log(route)
     return this.http.post<any>(`http://localhost:3000/rota/save`, route, {
       headers,
     });
+  }
+
+  findRoute(coordinates: any) {
+    console.log(JSON.stringify(coordinates))
+    return this.http.get<any>(
+      `http://localhost:3000/rota/find/${JSON.stringify(coordinates)}`,
+      { headers }
+    );
   }
 }

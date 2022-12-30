@@ -1,8 +1,8 @@
 export interface routeInfo {
   originCoordinateLat: number;
-  originCoordinateLnt: number;
+  originCoordinateLng: number;
   destinationCoordinateLat: number;
-  destinationCoordinateLnt: number;
+  destinationCoordinateLng: number;
   originAddress: string;
   destinationAddress: string;
   distanceText: string;

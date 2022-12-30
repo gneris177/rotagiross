@@ -41,7 +41,7 @@ export class ViewMapComponent {
   constructor(
     private locationService: LocationService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getLocation();
@@ -94,10 +94,22 @@ export class ViewMapComponent {
   }
 
   calculateRoute() {
+    let isSavedRoute = false;
     const coordinatesRoute = {
       origins: this.addrressInitial.coordinates,
       destinations: this.addrressFinal.coordinates,
     };
+
+
+    this.locationService.findRoute(coordinatesRoute).subscribe({
+      next: data => console.log(data)
+    })
+
+    return
+
+    if(isSavedRoute) {
+      return;
+    }
 
     this.locationService.getDistance(coordinatesRoute).subscribe({
       next: (data) => {
@@ -107,9 +119,9 @@ export class ViewMapComponent {
             next: (res) => {
               this.routeInfo = {
                 originCoordinateLat: this.addrressInitial.coordinates.lat,
-                originCoordinateLnt: this.addrressInitial.coordinates.lng,
+                originCoordinateLng: this.addrressInitial.coordinates.lng,
                 destinationCoordinateLat: this.addrressFinal.coordinates.lat,
-                destinationCoordinateLnt: this.addrressFinal.coordinates.lng,
+                destinationCoordinateLng: this.addrressFinal.coordinates.lng,
                 originAddress: data.origin_addresses[0],
                 destinationAddress: data.destination_addresses[0],
                 distanceText: data.rows[0].elements[0].distance.text,
@@ -127,8 +139,7 @@ export class ViewMapComponent {
   }
 
   saveRoute() {
-    this.locationService.saveRoute(this.routeInfo);
-    this.onAddRouteInfo();
+    this.locationService.saveRoute(this.routeInfo).subscribe({ next: _ => this.onAddRouteInfo() });
   }
 
   onAddRouteInfo() {
